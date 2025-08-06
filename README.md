@@ -1,44 +1,42 @@
-🌐 Mini LinkedIn – A MERN Stack Social Network
-Mini LinkedIn is a sleek, mobile-responsive social media platform inspired by LinkedIn.
-Built with the MERN stack, it supports:
+# 🌐 Mini LinkedIn – A MERN Stack Social Network
 
-🔐 User authentication
+**Mini LinkedIn** is a sleek, mobile-responsive social media platform inspired by LinkedIn.  
+Built with the **MERN** stack, it supports:
 
-🙋 Profile pages
+- 🔐 User authentication  
+- 🙋 Profile pages  
+- 📝 Post creation  
+- ❤️ Likes & 💬 comments
 
-📝 Post creation
+---
 
-❤️ Likes & 💬 comments
+## 🚀 Tech Stack Used
 
+### 💻 Frontend
 
-🚀 Tech Stack Used
+- ⚛️ React.js  
+- 🎨 Tailwind CSS  
+- 🔁 React Router DOM  
+- 📡 Axios  
+- 🕒 Moment.js  
 
-💻 Frontend ->
+### 🛠️ Backend
 
-⚛️ React.js
-🎨 Tailwind CSS
-🔁 React Router DOM
-📡 Axios
-🕒 Moment.js
+- 🟢 Node.js  
+- 🚂 Express.js  
+- 🍃 MongoDB (Mongoose)  
+- 🔐 JWT (JSON Web Token) for authentication
 
-🛠️ Backend =>
+---
 
-🟢 Node.js
+## ⚙️ Setup Instructions
 
-🚂 Express.js
+### 1️⃣ Clone the Repository
 
-🍃 MongoDB (Mongoose)
-
-🔐 JWT (JSON Web Token) for authentication
-
-
-
-Setup Instructions
-
-1️⃣Clone the Repository
-bash:
+```bash
 git clone https://github.com/tejas-waghamare/LinkedIn-Mini.git
 cd LinkedIn-Mini
+
 
 2️⃣ Backend Setup
 
