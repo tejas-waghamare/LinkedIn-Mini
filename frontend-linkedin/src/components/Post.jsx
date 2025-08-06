@@ -343,7 +343,7 @@ const Post = ({ post, onDelete }) => {
   const handleDelete = async () => {
     try {
       if (!post._id) return;
-      await axios.delete(`http://localhost:5000/api/posts/${post._id}`, {
+      await axios.delete(`https://linkedin-mini-backend-linkedin.onrender.com/api/posts/${post._id}`, {
         headers: {
           'x-auth-token': localStorage.getItem('token'),
         },

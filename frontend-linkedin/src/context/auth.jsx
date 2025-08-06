@@ -21,7 +21,7 @@
 //   const register = async (userData) => {
 //     try {
 //       const res = await axios.post(
-//         'http://localhost:5000/api/auth/register',
+//         'https://linkedin-mini-backend-linkedin.onrender.com/api/auth/register',
 //         userData,
 //         {
 //           headers: {
@@ -181,7 +181,7 @@ export const AuthProvider = ({ children }) => {
   const register = async (userData) => {
     try {
       const res = await axios.post(
-        'http://localhost:5000/api/auth/register',
+        'https://linkedin-mini-backend-linkedin.onrender.com/api/auth/register',
         userData,
         {
           headers: {
@@ -200,7 +200,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (credentials) => {
     try {
       const res = await axios.post(
-        'http://localhost:5000/api/auth/login',
+        'https://linkedin-mini-backend-linkedin.onrender.com/api/auth/login',
         credentials,
         {
           headers: {
@@ -218,7 +218,7 @@ export const AuthProvider = ({ children }) => {
 
   const loadUser = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/users/me');
+      const res = await axios.get('https://linkedin-mini-backend-linkedin.onrender.com/api/users/me');
       setUser(res.data);
     } catch (err) {
       console.error('Load user error:', err);
@@ -233,7 +233,7 @@ export const AuthProvider = ({ children }) => {
   const createPost = async (text) => {
     try {
       const res = await axios.post(
-        'http://localhost:5000/api/posts',
+        'https://linkedin-mini-backend-linkedin.onrender.com/api/posts',
         { text },
         {
           headers: {
@@ -250,7 +250,7 @@ export const AuthProvider = ({ children }) => {
 
   const deletePost = async (postId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/posts/${postId}`);
+      await axios.delete(`https://linkedin-mini-backend-linkedin.onrender.com/api/posts/${postId}`);
       setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
     } catch (err) {
       console.error('Delete post error:', err.response?.data || err.message);
@@ -260,7 +260,7 @@ export const AuthProvider = ({ children }) => {
 
   const getPosts = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/posts');
+      const res = await axios.get('https://linkedin-mini-backend-linkedin.onrender.com/api/posts');
       setPosts(res.data);
     } catch (err) {
       console.error('Get posts error:', err);
@@ -270,7 +270,7 @@ export const AuthProvider = ({ children }) => {
 
   const getUserProfile = async (userId) => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/users/${userId}`);
+      const res = await axios.get(`https://linkedin-mini-backend-linkedin.onrender.com/api/users/${userId}`);
       return res.data;
     } catch (err) {
       throw err.response?.data || { msg: 'Failed to fetch user profile' };
@@ -281,7 +281,7 @@ export const AuthProvider = ({ children }) => {
     try {
       console.log('Sending PUT /api/users/me:', { bio, jobTitle, skills });
       const res = await axios.put(
-        'http://localhost:5000/api/users/me',
+        'https://linkedin-mini-backend-linkedin.onrender.com/api/users/me',
         { bio, jobTitle, skills },
         {
           headers: {
