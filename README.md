@@ -1,4 +1,4 @@
-# 🌐 Mini LinkedIn – A MERN Stack Social Network
+# 🌐 Mini LinkedIn – A MERN Stack Social Network -https://linkedin-mini-frontend-linkedin.onrender.com
 
 **Mini LinkedIn** is a sleek, mobile-responsive social media platform inspired by LinkedIn.  
 Built with the **MERN** stack, it supports:
