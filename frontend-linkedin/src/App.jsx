@@ -240,7 +240,7 @@ const App = () => {
         </main>
 
         {/* Footer */}
-        <footer className="bg-white/80 border-t border-gray-200 py-4 sm:py-5 text-center text-sm text-gray-600 shadow-inner">
+        <footer className="bg-black/30 border-t border-gray-200 py-4 sm:py-5 text-center text-sm text-gray-600 shadow-inner">
           © {new Date().getFullYear()} <span className="font-semibold">Mini LinkedIn</span>. All rights reserved.
         </footer>
       </div>

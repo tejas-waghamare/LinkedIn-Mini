@@ -5,6 +5,7 @@ import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/auth';
 import { LogOut, User, Home, LogIn, UserPlus, Menu, X } from 'lucide-react';
+import Logo from '../assets/MinLogo4.png';
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
@@ -22,8 +23,9 @@ const Navbar = () => {
         {/* Logo */}
         <Link
           to="/"
-          className="text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500"
+          className="text-2xl flex ml-0 sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500"
         >
+        <img src={Logo} alt="" className='h-10 mx-5 animate-bounce' />
           MiniLinkedIn
         </Link>
 
