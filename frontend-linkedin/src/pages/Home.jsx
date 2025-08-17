@@ -131,6 +131,41 @@
 
 // export default Home;
 
+// import React, { useEffect, useContext } from 'react';
+// import { AuthContext } from '../context/auth';
+// import PostForm from '../components/PostForm';
+// import Post from '../components/Post';
+
+// const Home = () => {
+//   const { posts, getPosts, createPost, deletePost, isLoading } = useContext(AuthContext);
+
+//   useEffect(() => {
+//     if (!isLoading) {
+//       getPosts();
+//     }
+//   }, [isLoading]);
+
+//   const arr = [{text:"hi"}, ...posts];
+
+//   return (
+//     <div className="max-w-4xl mx-auto px-4 py-8">
+//       <PostForm onPostCreated={createPost} />
+//       <h3 className="text-xl font-semibold text-gray-800 mb-4">Posts</h3>
+//       {posts.length === 0 ? (
+//         <p className="text-center text-gray-600">No posts yet.</p>
+//       ) : (
+//         <div className="space-y-4">
+//           {arr.map((post) => (
+//             <Post key={post._id} post={post} onDelete={deletePost} />
+//           ))}
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default Home;
+
 import React, { useEffect, useContext } from 'react';
 import { AuthContext } from '../context/auth';
 import PostForm from '../components/PostForm';
@@ -143,19 +178,38 @@ const Home = () => {
     if (!isLoading) {
       getPosts();
     }
-  }, [isLoading]);
+  }, [deletePost,isLoading,createPost]);
+
+  // Hardcoded Welcome Post (always shown at the top)
+  const welcomePost = {
+    _id: "welcome-1",
+    text: "👋 Welcome to LinkedIn Mini! Start by creating your first post.",
+    user: {_id:"user-1", name: "MiniLinkedin"},
+    date: new Date().toISOString(),
+  };
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <PostForm onPostCreated={createPost} />
       <h3 className="text-xl font-semibold text-gray-800 mb-4">Posts</h3>
-      {posts.length === 0 ? (
-        <p className="text-center text-gray-600">No posts yet.</p>
+
+      {isLoading ? (
+        <div className="flex justify-center py-6">
+          <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
       ) : (
         <div className="space-y-4">
-          {posts.map((post) => (
-            <Post key={post._id} post={post} onDelete={deletePost} />
-          ))}
+          {/* Always render Welcome Post first */}
+          <Post post={welcomePost} onDelete={null} />
+
+          {/* Then render user posts */}
+          {posts.length === 0 ? (
+            <p className="text-center text-gray-600">No posts yet.</p>
+          ) : (
+            posts.map((post) => (
+              <Post key={post._id} post={post} onDelete={deletePost} />
+            ))
+          )}
         </div>
       )}
     </div>

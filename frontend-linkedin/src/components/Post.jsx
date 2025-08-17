@@ -64,7 +64,7 @@ const Post = ({ post, onDelete }) => {
         {user && user._id === userInfo._id && (
           <button
             onClick={handleDelete}
-            className="text-red-500 text-sm hover:text-red-700 cursor-not-allowed transition"
+            className="text-red-500 text-sm hover:text-red-700 cursor-pointer transition"
             title="Delete Post"
           >
             🗑
