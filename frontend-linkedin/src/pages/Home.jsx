@@ -1,129 +1,58 @@
 
 
-
-// // pages/Home.jsx
-// import React, { useState, useContext, useEffect } from 'react';
+// import React, { useEffect, useContext } from 'react';
 // import { AuthContext } from '../context/auth';
-// import { Link } from 'react-router-dom';
+// import PostForm from '../components/PostForm';
+// import Post from '../components/Post';
 
 // const Home = () => {
-//   const { user, posts, createPost, getPosts, isLoading } = useContext(AuthContext);
-//   const [formData, setFormData] = useState({ text: '' });
-//   const [errors, setErrors] = useState({});
-//   const [isSubmitting, setIsSubmitting] = useState(false);
+//   const { posts, getPosts, createPost, deletePost, isLoading } = useContext(AuthContext);
 
 //   useEffect(() => {
 //     if (!isLoading) {
 //       getPosts();
 //     }
-//   }, [getPosts, isLoading]);
+//   }, [deletePost, isLoading, createPost]);
 
-//   const { text } = formData;
-
-//   const onChange = (e) => {
-//     setFormData({ ...formData, text: e.target.value });
-//     if (errors.text || errors.msg) {
-//       setErrors({ ...errors, text: '', msg: '' });
-//     }
+//   // Hardcoded Welcome Post (always shown at the top)
+//   const welcomePost = {
+//     _id: "welcome-1",
+//     text: "👋 Welcome to LinkedIn Mini! Start by creating your first post.",
+//     user: { _id: "user-1", name: "MiniLinkedin" },
+//     date: new Date().toISOString(),
 //   };
-
-//   const onSubmit = async (e) => {
-//     e.preventDefault();
-//     setIsSubmitting(true);
-
-//     if (!text.trim()) {
-//       setErrors({ text: 'Post content is required' });
-//       setIsSubmitting(false);
-//       return;
-//     }
-
-//     try {
-//       await createPost(text);
-//       setFormData({ text: '' });
-//       setIsSubmitting(false);
-//     } catch (err) {
-//       setErrors(err);
-//       setIsSubmitting(false);
-//     }
-//   };
-
-//   if (isLoading) {
-//     return <div className="text-center text-gray-600 py-8">Loading...</div>;
-//   }
 
 //   return (
-//     <div className="container mx-auto px-4 py-10">
-//       <h2 className="text-3xl font-extrabold text-blue-700 mb-8 text-center">
-//         Community Feed 📰
-//       </h2>
+//     <div className="flex max-w-4xl gap-6 mx-auto h-screen px-4 ">
+//       <div className="w-full py-14">
+//         <PostForm onPostCreated={createPost} />
+//       </div>
+//       <div className='w-full  p-2'>
+//         <div>
+//           <h3 className="text-xl font-semibold flex justify-end text-gray-800 mb-4">Posts</h3>
+//         </div>
+//         <div className='overflow-y-auto w-full  p-2 '>
 
-//       {user ? (
-//         <form onSubmit={onSubmit} className="bg-white/90 backdrop-blur-md border border-gray-200 p-6 rounded-2xl shadow-lg mb-10 transition-all">
-//           <div className="flex gap-4 items-start">
-//             <div className="w-12 h-12 bg-blue-200 text-blue-700 rounded-full flex items-center justify-center font-bold text-lg">
-//               {user.name.charAt(0)}
+//           {isLoading ? (
+//             <div className="flex justify-center ">
+//               <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
 //             </div>
-//             <div className="flex-1">
-//               <textarea
-//                 name="text"
-//                 placeholder="What's on your mind?"
-//                 value={text}
-//                 onChange={onChange}
-//                 disabled={isSubmitting}
-//                 className={`w-full p-4 border ${errors.text ? 'border-red-500' : 'border-gray-300'} rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none`}
-//                 rows="4"
-//               />
-//               {errors.text && <p className="text-red-500 text-sm mt-1">{errors.text}</p>}
-//               {errors.msg && <p className="text-red-500 text-sm mt-1 text-center">{errors.msg}</p>}
-//               <div className="text-right mt-3">
-//                 <button
-//                   type="submit"
-//                   disabled={isSubmitting}
-//                   className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-full transition"
-//                 >
-//                   {isSubmitting ? 'Posting...' : 'Post'}
-//                 </button>
-//               </div>
-//             </div>
-//           </div>
-//         </form>
-//       ) : (
-//         <p className="text-center text-gray-600 mb-6">
-//           Please{' '}
-//           <Link to="/login" className="text-blue-600 hover:underline font-medium">
-//             login
-//           </Link>{' '}
-//           to post your thoughts.
-//         </p>
-//       )}
+//           ) : (
+//             <div className=" space-y-4  ">
+//               {/* Always render Welcome Post first */}
+//               <Post post={welcomePost} onDelete={null} />
 
-//       <div className="space-y-6">
-//         {posts.length === 0 ? (
-//           <p className="text-center text-gray-500">No posts yet. Be the first to start the conversation!</p>
-//         ) : (
-//           posts.map((post) => (
-//             <div
-//               key={post._id}
-//               className="bg-white p-6 rounded-2xl shadow-md border border-gray-200 hover:shadow-lg transition-all duration-300"
-//             >
-//               <div className="flex justify-between items-center mb-2">
-//                 <Link
-//                   to={`/profile/${post.user._id}`}
-//                   className="text-blue-700 font-semibold hover:underline"
-//                 >
-//                   {post.user.name}
-//                 </Link>
-//                 <span className="text-gray-500 text-xs">
-//                   {new Date(post.date).toLocaleString(undefined, {
-//                     dateStyle: 'medium',
-//                     timeStyle: 'short',
-//                   })}
-//                 </span>
-//               </div>
-//               <p className="text-gray-800 whitespace-pre-line">{post.text}</p>
+//               {/* Then render user posts */}
+//               {posts.length === 0 ? (
+//                 <p className="text-center text-gray-600">No posts yet.</p>
+//               ) : (
+//                 posts.map((post) => (
+//                   <Post key={post._id} post={post} onDelete={deletePost} />
+//                 ))
+//               )}
 //             </div>
-//           ))
-//         )}
+//           )}
+//         </div>
 //       </div>
 //     </div>
 //   );
@@ -143,30 +72,62 @@
 //     if (!isLoading) {
 //       getPosts();
 //     }
-//   }, [isLoading]);
+//   }, [deletePost, isLoading, createPost]);
 
-//   const arr = [{text:"hi"}, ...posts];
+//   // Hardcoded Welcome Post (always shown at the top)
+//   const welcomePost = {
+//     _id: "welcome-1",
+//     text: "👋 Welcome to LinkedIn Mini! Start by creating your first post.",
+//     user: { _id: "user-1", name: "MiniLinkedin" },
+//     date: new Date().toISOString(),
+//   };
 
 //   return (
-//     <div className="max-w-4xl mx-auto px-4 py-8">
-//       <PostForm onPostCreated={createPost} />
-//       <h3 className="text-xl font-semibold text-gray-800 mb-4">Posts</h3>
-//       {posts.length === 0 ? (
-//         <p className="text-center text-gray-600">No posts yet.</p>
-//       ) : (
-//         <div className="space-y-4">
-//           {arr.map((post) => (
-//             <Post key={post._id} post={post} onDelete={deletePost} />
-//           ))}
+//     <div className="flex flex-col md:flex-row max-w-6xl mx-auto px-4 gap-6">
+      
+//       {/* Left Side - Post Form */}
+//       <div className="w-full md:w-1/3 py-6 md:py-14">
+//         <PostForm onPostCreated={createPost} />
+//       </div>
+
+//       {/* Right Side - Posts */}
+//       <div className="w-full md:w-2/3 p-2 overflow-y-auto flex flex-col">
+//         <div>
+//           <h3 className="text-lg md:text-xl font-semibold text-gray-800 mb-4 text-center md:text-right">
+//             Posts
+//           </h3>
 //         </div>
-//       )}
+
+//         <div className="flex-1 overflow-y-auto p-2">
+//           {isLoading ? (
+//             <div className="flex justify-center overflow-y-auto py-10">
+//               <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+//             </div>
+//           ) : (
+//             <div className="space-y-4 overflow-y-auto">
+//               {/* Always render Welcome Post first */}
+//               <Post post={welcomePost} onDelete={null} />
+
+//               {/* Then render user posts */}
+//               {posts.length === 0 ? (
+//                 <p className="text-center text-gray-600">No posts yet.</p>
+//               ) : (
+//                 posts.map((post) => (
+//                   <Post key={post._id} post={post} onDelete={deletePost} />
+//                 ))
+//               )}
+//             </div>
+//           )}
+//         </div>
+//       </div>
 //     </div>
 //   );
 // };
 
 // export default Home;
 
-import React, { useEffect, useContext } from 'react';
+
+import React, { useEffect, useContext, useState } from 'react';
 import { AuthContext } from '../context/auth';
 import PostForm from '../components/PostForm';
 import Post from '../components/Post';
@@ -174,44 +135,110 @@ import Post from '../components/Post';
 const Home = () => {
   const { posts, getPosts, createPost, deletePost, isLoading } = useContext(AuthContext);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const postsPerPage = 5;
+
   useEffect(() => {
     if (!isLoading) {
       getPosts();
     }
-  }, [deletePost,isLoading,createPost]);
+  }, [deletePost, isLoading, createPost, getPosts]);
 
   // Hardcoded Welcome Post (always shown at the top)
   const welcomePost = {
     _id: "welcome-1",
     text: "👋 Welcome to LinkedIn Mini! Start by creating your first post.",
-    user: {_id:"user-1", name: "MiniLinkedin"},
+    user: { _id: "user-1", name: "MiniLinkedin" },
     date: new Date().toISOString(),
-  };
+  };
+
+  // Pagination Logic
+  const totalPosts = posts.length;
+  const totalPages = Math.ceil(totalPosts / postsPerPage);
+
+  const startIndex = (currentPage - 1) * postsPerPage;
+  const endIndex = startIndex + postsPerPage;
+  const currentPosts = posts.slice(startIndex, endIndex);
+
+  const handleNext = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+
+  const handlePrev = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      <PostForm onPostCreated={createPost} />
-      <h3 className="text-xl font-semibold text-gray-800 mb-4">Posts</h3>
+    <div className="flex flex-col md:flex-row max-w-6xl mx-auto px-4 gap-6">
+      
+      {/* Left Side - Post Form */}
+      <div className="w-full md:w-1/3 py-6 md:py-14">
+        <PostForm onPostCreated={createPost} />
+      </div>
 
-      {isLoading ? (
-        <div className="flex justify-center py-6">
-          <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+      {/* Right Side - Posts */}
+      <div className="w-full md:w-2/3 p-2 overflow-y-auto flex flex-col">
+        <div>
+          <h3 className="text-lg md:text-xl font-semibold text-gray-800 mb-4 text-center md:text-right">
+            Posts
+          </h3>
         </div>
-      ) : (
-        <div className="space-y-4">
-          {/* Always render Welcome Post first */}
-          <Post post={welcomePost} onDelete={null} />
 
-          {/* Then render user posts */}
-          {posts.length === 0 ? (
-            <p className="text-center text-gray-600">No posts yet.</p>
+        <div className="flex-1 overflow-y-auto p-2">
+          {isLoading ? (
+            <div className="flex justify-center overflow-y-auto py-10">
+              <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+            </div>
           ) : (
-            posts.map((post) => (
-              <Post key={post._id} post={post} onDelete={deletePost} />
-            ))
+            <div className="space-y-4 overflow-y-auto">
+              {/* Always render Welcome Post first */}
+              <Post post={welcomePost} onDelete={null} />
+
+              {/* Then render paginated posts */}
+              {totalPosts === 0 ? (
+                <p className="text-center text-gray-600">No posts yet.</p>
+              ) : (
+                <>
+                  {currentPosts.map((post) => (
+                    <Post key={post._id} post={post} onDelete={deletePost} />
+                  ))}
+
+                  {/* Pagination Controls */}
+                  {totalPages > 1 && (
+                    <div className="flex justify-center gap-4 mt-4">
+                      <button
+                        onClick={handlePrev}
+                        disabled={currentPage === 1}
+                        className={`px-4 py-2 rounded-lg ${
+                          currentPage === 1
+                            ? "bg-gray-300 cursor-not-allowed"
+                            : "bg-blue-500 text-white hover:bg-blue-600"
+                        }`}
+                      >
+                        Previous
+                      </button>
+                      <span className="px-2 py-2 text-gray-700">
+                        Page {currentPage} of {totalPages}
+                      </span>
+                      <button
+                        onClick={handleNext}
+                        disabled={currentPage === totalPages}
+                        className={`px-4 py-2 rounded-lg ${
+                          currentPage === totalPages
+                            ? "bg-gray-300 cursor-not-allowed"
+                            : "bg-blue-500 text-white hover:bg-blue-600"
+                        }`}
+                      >
+                        Next
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
           )}
         </div>
-      )}
+      </div>
     </div>
   );
 };
