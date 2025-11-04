@@ -12,6 +12,7 @@ connectDB();
 const allowedOrigins = [
   process.env.CLIENT_URL,
   'http://localhost:3000',
+  'http://localhost:5173',
   'https://linkedin-mini-frontend-linkedin.onrender.com',
 ].filter(Boolean); // Remove undefined/null values
 
