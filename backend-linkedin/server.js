@@ -12,22 +12,29 @@ connectDB();
 const allowedOrigins = [
   process.env.CLIENT_URL,
   'http://localhost:3000',
-  'http://localhost:5173',
   'https://linkedin-mini-frontend-linkedin.onrender.com',
 ].filter(Boolean); // Remove undefined/null values
+
+// In development allow the Vite default origin (localhost:5173)
+if (process.env.NODE_ENV !== 'production') {
+  allowedOrigins.push('http://localhost:5173');
+}
 
 app.use(
   cors({
     origin: (origin, callback) => {
+      // Allow requests with no origin (e.g., mobile apps, curl) or allowed origins
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
+        console.error('❌ CORS blocked origin:', origin);
         callback(new Error('Not allowed by CORS'));
       }
     },
     credentials: true,
   })
 );
+
 app.use(express.json({ extended: false }));
 
 // Routes

@@ -163,6 +163,9 @@
 import { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
+// Use Vite env var when available, otherwise default to local backend for development
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -177,11 +180,10 @@ export const AuthProvider = ({ children }) => {
       delete axios.defaults.headers.common['x-auth-token'];
     }
   };
-
   const register = async (userData) => {
     try {
       const res = await axios.post(
-        'https://linkedin-mini-backend-linkedin.onrender.com/api/auth/register',
+        `${API_BASE}/api/auth/register`,
         userData,
         {
           headers: {
@@ -200,7 +202,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (credentials) => {
     try {
       const res = await axios.post(
-        'https://linkedin-mini-backend-linkedin.onrender.com/api/auth/login',
+        `${API_BASE}/api/auth/login`,
         credentials,
         {
           headers: {
@@ -218,7 +220,7 @@ export const AuthProvider = ({ children }) => {
 
   const loadUser = async () => {
     try {
-      const res = await axios.get('https://linkedin-mini-backend-linkedin.onrender.com/api/users/me');
+      const res = await axios.get(`${API_BASE}/api/users/me`);
       setUser(res.data);
     } catch (err) {
       console.error('Load user error:', err);
@@ -233,7 +235,7 @@ export const AuthProvider = ({ children }) => {
   const createPost = async (text) => {
     try {
       const res = await axios.post(
-        'https://linkedin-mini-backend-linkedin.onrender.com/api/posts',
+        `${API_BASE}/api/posts`,
         { text },
         {
           headers: {
@@ -250,7 +252,7 @@ export const AuthProvider = ({ children }) => {
 
   const deletePost = async (postId) => {
     try {
-      await axios.delete(`https://linkedin-mini-backend-linkedin.onrender.com/api/posts/${postId}`);
+      await axios.delete(`${API_BASE}/api/posts/${postId}`);
       setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
     } catch (err) {
       console.error('Delete post error:', err.response?.data || err.message);
@@ -260,7 +262,7 @@ export const AuthProvider = ({ children }) => {
 
   const getPosts = async () => {
     try {
-      const res = await axios.get('https://linkedin-mini-backend-linkedin.onrender.com/api/posts');
+      const res = await axios.get(`${API_BASE}/api/posts`);
       setPosts(res.data);
     } catch (err) {
       console.error('Get posts error:', err);
@@ -270,7 +272,7 @@ export const AuthProvider = ({ children }) => {
 
   const getUserProfile = async (userId) => {
     try {
-      const res = await axios.get(`https://linkedin-mini-backend-linkedin.onrender.com/api/users/${userId}`);
+      const res = await axios.get(`${API_BASE}/api/users/${userId}`);
       return res.data;
     } catch (err) {
       throw err.response?.data || { msg: 'Failed to fetch user profile' };
@@ -281,7 +283,7 @@ export const AuthProvider = ({ children }) => {
     try {
       console.log('Sending PUT /api/users/me:', { bio, jobTitle, skills });
       const res = await axios.put(
-        'https://linkedin-mini-backend-linkedin.onrender.com/api/users/me',
+        `${API_BASE}/api/users/me`,
         { bio, jobTitle, skills },
         {
           headers: {
