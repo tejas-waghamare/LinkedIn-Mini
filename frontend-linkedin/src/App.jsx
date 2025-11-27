@@ -100,7 +100,7 @@ const App = () => {
           <Navbar />
 
           <main className="flex-grow w-full px-2 sm:px-6 py-6 sm:py-4">
-            <div className="w-full max-w-7xl mx-auto bg-gradient-to-br from-sky-100 via-indigo-200 to-pink-200 shadow-xl rounded-2xl p-4 sm:p-8 transition-all duration-300 ease-in-out">
+            <div className="w-full max-w-7xl mx-auto bg-gradient-to-br from-sky-100 via-indigo-200 to-pink-200 shadow-xl rounded-2xl p-4 sm:p-4 transition-all duration-300 ease-in-out">
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/profile/:userId" element={<Profile />} />
