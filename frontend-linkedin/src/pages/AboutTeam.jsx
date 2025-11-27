@@ -332,7 +332,7 @@ import {
 } from "react-icons/fa";
 import { SiMongodb, SiExpress, SiReact, SiNodedotjs } from "react-icons/si";
 import Logo from "../assets/MinLogo4.png";
-import MyPhoto from "../assets/Myphoto.jpg";
+import Myphoto from "../assets/Myphoto.jpg";
 
 const AboutTeam = () => {
   const founder = {
@@ -341,7 +341,7 @@ const AboutTeam = () => {
     bio: "Passionate about building innovative web applications and creating meaningful digital experiences. With expertise in the MERN stack, I built LinkedIn Mini to provide a modern, streamlined platform for professional networking.",
     linkedin: "https://www.linkedin.com/in/tejas-waghamare-62b6b0290",
     github: "https://github.com/tejas-waghamare",
-    photo: MyPhoto
+    photo: Myphoto
   };
 
   const features = [
