@@ -304,6 +304,133 @@
 // export default Post;
 
 
+// import React, { useState, useContext } from 'react';
+// import { Link } from 'react-router-dom';
+// import moment from 'moment';
+// import { AuthContext } from '../context/auth';
+// import { MdDeleteForever } from "react-icons/md";
+
+// const Post = ({ post, onDelete }) => {
+//   const { user } = useContext(AuthContext);
+//   const [showConfirm, setShowConfirm] = useState(false);
+//   const [liked, setLiked] = useState(false);
+//   const [animating, setAnimating] = useState(false);
+//   const [deleting, setDeleting] = useState(false); // ✅ prevent double request
+
+//   const handleDelete = async () => {
+//     if (!post._id || deleting) return;
+//     setDeleting(true);
+
+//     try {
+//       await onDelete(post._id); // ✅ only parent handles API
+//       setShowConfirm(false);
+//     } catch (err) {
+//       console.warn('Delete failed');
+//     } finally {
+//       setDeleting(false);
+//     }
+//   };
+
+//   const getInitials = (name) => {
+//     if (!name) return 'U';
+//     return name.split(' ').map(w => w[0]).join('').toUpperCase();
+//   };
+
+//   const handleLike = () => {
+//     setLiked(!liked);
+//     setAnimating(true);
+//     setTimeout(() => setAnimating(false), 300);
+//   };
+
+//   const userInfo = post.user || {};
+
+//   return (
+//     <>
+//       <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-md p-4 sm:p-5 mb-6 border border-gray-200 hover:shadow-lg transition duration-300">
+
+//         {/* HEADER */}
+//         <div className="flex items-center justify-between mb-4">
+//           <div className="flex items-center gap-3">
+//             {userInfo.avatar ? (
+//               <img src={userInfo.avatar} alt="Avatar"
+//                 className="w-11 h-11 rounded-full object-cover border-2 border-purple-400 shadow" />
+//             ) : (
+//               <div className="w-11 h-11 rounded-full bg-gradient-to-r from-indigo-400 to-purple-500 text-white flex items-center justify-center font-bold shadow">
+//                 {getInitials(userInfo.name)}
+//               </div>
+//             )}
+//             <div>
+//               <Link to={`/profile/${userInfo._id}`}
+//                 className="font-semibold text-gray-800 hover:text-indigo-600">
+//                 {userInfo.name || 'User'}
+//               </Link>
+//               <p className="text-xs text-gray-500">
+//                 {moment(post.date).fromNow()}
+//               </p>
+//             </div>
+//           </div>
+
+//           {user && user._id === userInfo._id && (
+//             <button
+//               onClick={() => setShowConfirm(true)}
+//               disabled={deleting}
+//               className="text-white text-xl p-1 rounded-full bg-red-500 hover:bg-red-700 transition"
+//             >
+//               <MdDeleteForever />
+//             </button>
+//           )}
+//         </div>
+
+//         {/* POST TEXT */}
+//         <p className="text-gray-700 mb-4">{post.text}</p>
+
+//         {/* ACTIONS */}
+//         <div className="flex gap-4">
+//           <button onClick={handleLike}
+//             className={`flex items-center gap-1 ${liked ? "text-pink-500" : "text-gray-600"}`}>
+//             <span className={`transition ${animating ? "animate-ping" : ""}`}>
+//               {liked ? "❤️" : "🩶"}
+//             </span>
+//             {liked ? "Liked" : "Like"}
+//           </button>
+
+//           <button className="text-gray-600">💬 Comment</button>
+//         </div>
+//       </div>
+
+//       {/* CONFIRMATION MODAL */}
+//       {showConfirm && (
+//         <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
+//           <div className="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full">
+//             <h2 className="text-lg font-semibold mb-3">Confirm Delete</h2>
+//             <p className="text-sm text-gray-600 mb-5">
+//               Are you sure you want to delete this post?
+//             </p>
+//             <div className="flex justify-end gap-3">
+//               <button
+//                 onClick={() => setShowConfirm(false)}
+//                 className="px-4 py-2 border rounded-lg"
+//               >
+//                 Cancel
+//               </button>
+//               <button
+//                 onClick={handleDelete}
+//                 disabled={deleting}
+//                 className="px-4 py-2 bg-red-500 text-white rounded-lg"
+//               >
+//                 {deleting ? "Deleting..." : "Delete"}
+//               </button>
+//             </div>
+//           </div>
+//         </div>
+//       )}
+//     </>
+//   );
+// };
+
+// export default Post;
+
+
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
@@ -315,14 +442,19 @@ const Post = ({ post, onDelete }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [liked, setLiked] = useState(false);
   const [animating, setAnimating] = useState(false);
-  const [deleting, setDeleting] = useState(false); // ✅ prevent double request
+  const [deleting, setDeleting] = useState(false);
+
+  const userInfo = post.user || {};
+
+  const isTeam = userInfo.isTeam === true;
+  const profileLink = isTeam ? "/about" : `/profile/${userInfo._id}`;
 
   const handleDelete = async () => {
     if (!post._id || deleting) return;
     setDeleting(true);
 
     try {
-      await onDelete(post._id); // ✅ only parent handles API
+      await onDelete(post._id);
       setShowConfirm(false);
     } catch (err) {
       console.warn('Delete failed');
@@ -342,8 +474,6 @@ const Post = ({ post, onDelete }) => {
     setTimeout(() => setAnimating(false), 300);
   };
 
-  const userInfo = post.user || {};
-
   return (
     <>
       <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-md p-4 sm:p-5 mb-6 border border-gray-200 hover:shadow-lg transition duration-300">
@@ -351,25 +481,45 @@ const Post = ({ post, onDelete }) => {
         {/* HEADER */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            {userInfo.avatar ? (
-              <img src={userInfo.avatar} alt="Avatar"
-                className="w-11 h-11 rounded-full object-cover border-2 border-purple-400 shadow" />
-            ) : (
-              <div className="w-11 h-11 rounded-full bg-gradient-to-r from-indigo-400 to-purple-500 text-white flex items-center justify-center font-bold shadow">
-                {getInitials(userInfo.name)}
-              </div>
-            )}
+
+            {/* AVATAR WITH LINK */}
+            <Link to={profileLink}>
+              {userInfo.avatar ? (
+                <img
+                  src={userInfo.avatar}
+                  alt="Avatar"
+                  className="w-11 h-11 rounded-full object-cover border-2 border-purple-400 shadow"
+                />
+              ) : (
+                <div className="w-11 h-11 rounded-full bg-gradient-to-r from-indigo-400 to-purple-500 text-white flex items-center justify-center font-bold shadow">
+                  {getInitials(userInfo.name)}
+                </div>
+              )}
+            </Link>
+
+            {/* NAME WITH LINK */}
             <div>
-              <Link to={`/profile/${userInfo._id}`}
-                className="font-semibold text-gray-800 hover:text-indigo-600">
+              <Link
+                to={profileLink}
+                className="font-semibold text-gray-800 hover:text-indigo-600 flex items-center gap-1"
+              >
                 {userInfo.name || 'User'}
+
+                {/* TEAM BADGE */}
+                {isTeam && (
+                  <span className="ml-1 text-xs bg-blue-600 text-white px-2 py-0.5 rounded-full">
+                    Official
+                  </span>
+                )}
               </Link>
+
               <p className="text-xs text-gray-500">
                 {moment(post.date).fromNow()}
               </p>
             </div>
           </div>
 
+          {/* DELETE BUTTON */}
           {user && user._id === userInfo._id && (
             <button
               onClick={() => setShowConfirm(true)}

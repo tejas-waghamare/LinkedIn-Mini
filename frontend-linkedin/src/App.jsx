@@ -79,6 +79,7 @@ import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import AdminLogin from './components/Admin/AdminLogin';
 import AdminDashboard from './components/Admin/AdminDashboard';
+import AboutTeam from './pages/AboutTeam';
 
 const AppWrapper = () => {
   return (
@@ -98,8 +99,8 @@ const App = () => {
           
           <Navbar />
 
-          <main className="flex-grow w-full px-4 sm:px-6 py-6 sm:py-10">
-            <div className="w-full max-w-5xl mx-auto bg-gradient-to-br from-sky-100 via-indigo-200 to-pink-200 shadow-xl rounded-2xl p-4 sm:p-8 transition-all duration-300 ease-in-out">
+          <main className="flex-grow w-full px-2 sm:px-6 py-6 sm:py-4">
+            <div className="w-full max-w-7xl mx-auto bg-gradient-to-br from-sky-100 via-indigo-200 to-pink-200 shadow-xl rounded-2xl p-4 sm:p-8 transition-all duration-300 ease-in-out">
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/profile/:userId" element={<Profile />} />
@@ -123,7 +124,9 @@ const App = () => {
                 {/* Admin Routes */}
                 <Route path="/admin/login" element={<AdminLogin />} />
                 <Route path="/admin/dashboard" element={<AdminDashboard />} />
+              <Route path="/about" element={<AboutTeam />} />
               </Routes>
+
             </div>
           </main>
 
