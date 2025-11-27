@@ -385,7 +385,7 @@ const AboutTeam = () => {
               <img
                 src={Logo}
                 alt="LinkedIn Mini"
-                className="w-24 h-24 sm:w-35 p-2 sm:h-32 rounded-2xl shadow-lg border-4 border-sky-200 transform hover:scale-105 transition duration-300"
+                className="w-24 h-24 sm:w-35 p-1 sm:h-32 rounded-2xl shadow-lg border-4 border-sky-200 transform hover:scale-105 transition duration-300"
               />
               <div className="absolute -bottom-1 -right-1 sm:-bottom-2 sm:-right-2 bg-blue-500 text-white p-1 sm:p-2 rounded-full">
                 <FaRocket className="text-xs sm:text-sm" />
