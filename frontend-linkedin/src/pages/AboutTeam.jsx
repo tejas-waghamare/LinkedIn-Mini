@@ -332,7 +332,7 @@ import {
 } from "react-icons/fa";
 import { SiMongodb, SiExpress, SiReact, SiNodedotjs } from "react-icons/si";
 import Logo from "../assets/MinLogo4.png";
-import Myphoto from "../assets/Myphoto.jpg";
+import Myphoto from "../assets/myphoto.jpg";
 
 const AboutTeam = () => {
   const founder = {
